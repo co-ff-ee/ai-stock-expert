@@ -45,9 +45,9 @@ A real-time financial dashboard that combines **Technical Analysis (TA)** with *
 ```
 ## 📊 How it Works
 
-**Data Processing:** Handles yfinance MultiIndex headers automatically.
-**Expert Rules:** Uses 40/60 RSI thresholds for aggressive signal detection.
-**Decision Logic:** "Strong Buy/Sell" triggers only when AI predictions and Technical signals align.
-**Disclaimer:** Educational purposes only. Trading involves risk.
+*   **Data Processing:** Handles yfinance MultiIndex headers automatically.
+*   **Expert Rules:** Uses 40/60 RSI thresholds for aggressive signal detection.
+*   **Decision Logic:** "Strong Buy/Sell" triggers only when AI predictions and Technical signals align.
+*   **Disclaimer:** Educational purposes only. Trading involves risk.
 
 
