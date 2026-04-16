@@ -13,23 +13,28 @@ symbol = st.sidebar.text_input("Enter Stock Symbol", "BTC-USD").upper()
 predict_days = st.sidebar.slider("Prediction Sensitivity", 1, 10, 5)
 
 # --- DATA PROCESSING ---
-# --- DATA PROCESSING ---
 data = get_stock_data(symbol)
 
-if data.empty:
-    st.error(f"No data found for {symbol}. Please check the ticker symbol.")
+# CHECK 1: Did we get data?
+if data is None or data.empty:
+    st.error(f"⚠️ Yahoo Finance is currently limiting requests or '{symbol}' is invalid. Please wait 1 minute and refresh.")
     st.stop()
 
 data = add_indicators(data)
 data = apply_rules(data)
 
-# Check again after indicators (which create NaN rows at the start)
-if len(data.dropna()) < 10:
-    st.warning("Not enough historical data to train the AI. Try a more common ticker.")
+# CHECK 2: Is there enough data after dropping NaNs?
+clean_data = data.dropna()
+if len(clean_data) < 20:
+    st.warning("📊 Not enough historical data to train the AI. Try a more common ticker like BTC-USD or AAPL.")
     st.stop()
 
-model = train_model(data)
+# --- MODEL TRAINING ---
+model = train_model(clean_data)
 
+latest = data.iloc[-1]
+prev_close = data.iloc[-2]['Close']
+prediction = predict_price(model, [latest['rsi'], latest['macd']])
 
 # --- DECISION LOGIC ---
 def final_decision(signal, prediction, price):
