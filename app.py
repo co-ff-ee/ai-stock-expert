@@ -13,14 +13,23 @@ symbol = st.sidebar.text_input("Enter Stock Symbol", "BTC-USD").upper()
 predict_days = st.sidebar.slider("Prediction Sensitivity", 1, 10, 5)
 
 # --- DATA PROCESSING ---
+# --- DATA PROCESSING ---
 data = get_stock_data(symbol)
+
+if data.empty:
+    st.error(f"No data found for {symbol}. Please check the ticker symbol.")
+    st.stop()
+
 data = add_indicators(data)
 data = apply_rules(data)
+
+# Check again after indicators (which create NaN rows at the start)
+if len(data.dropna()) < 10:
+    st.warning("Not enough historical data to train the AI. Try a more common ticker.")
+    st.stop()
+
 model = train_model(data)
 
-latest = data.iloc[-1]
-prev_close = data.iloc[-2]['Close']
-prediction = predict_price(model, [latest['rsi'], latest['macd']])
 
 # --- DECISION LOGIC ---
 def final_decision(signal, prediction, price):
