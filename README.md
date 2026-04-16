@@ -25,3 +25,27 @@ A real-time financial dashboard that combines **Technical Analysis (TA)** with *
 ├── rules.py         # Custom trading logic thresholds
 ├── model.py         # ML model training and price prediction
 └── requirements.txt # Project dependencies
+```
+
+## ⚙️ Setup & Installation
+```bash
+1. Clone the repository
+   git clone https://github.com
+   cd ai-stock-expert
+
+2. Install dependencies
+   pip install -r requirements.txt
+
+3. Run the application
+   python -m streamlit run app.py
+
+```
+## 📊 How it Works
+```bash
+Data Processing: Handles yfinance MultiIndex headers automatically.
+Expert Rules: Uses 40/60 RSI thresholds for aggressive signal detection.
+Decision Logic: "Strong Buy/Sell" triggers only when AI predictions and Technical signals align.
+Disclaimer: Educational purposes only. Trading involves risk.
+
+```
+
